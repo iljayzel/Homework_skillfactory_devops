@@ -1,0 +1,23 @@
+# install_rem_postfix.yml
+---
+- name: Install or Remove Postfix
+  hosts: remote_server
+  tasks:
+    - name: Install Postfix
+      ansible.builtin.package:
+        name: postfix
+        state: present
+      tags: init
+
+    - name: Start Postfix
+      ansible.builtin.service:
+        name: postfix
+        state: started
+        enabled: yes
+      tags: init
+
+    - name: Remove Postfix
+      ansible.builtin.package:
+        name: postfix
+        state: absent
+      tags: drop
