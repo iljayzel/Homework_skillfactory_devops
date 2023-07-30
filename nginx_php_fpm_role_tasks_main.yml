@@ -1,0 +1,26 @@
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Install PHP-FPM
+  apt:
+    name: php-fpm
+    state: present
+
+- name: Create directory for DocumentRoot
+  file:
+    path: /opt/nginx/ansible
+    state: directory
+
+- name: Add PHP-FPM configuration for nginx
+  template:
+    src: nginx_php_fpm.conf.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Reload nginx
+
+- name: Enable PHP-FPM service
+  service:
+    name: php7.4-fpm
+    state: started
+    enabled: yes

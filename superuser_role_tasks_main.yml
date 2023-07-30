@@ -1,0 +1,19 @@
+---
+- name: Create superusers group
+  group:
+    name: superusers
+    state: present
+
+- name: Add users to superusers group
+  user:
+    name: "{{ item }}"
+    groups: superusers
+  loop:
+    - user2
+    - user3
+
+- name: Add sud configuration
+  lineinfile:
+    path: /etc/sudoers
+    line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'

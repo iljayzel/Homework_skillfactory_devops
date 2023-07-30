@@ -1,0 +1,8 @@
+- name: Apply all roles
+  hosts: test
+  become: yes
+
+  roles:
+    - dnsmasq_role
+    - superusers_role
+    - nginx_php_fpm_role

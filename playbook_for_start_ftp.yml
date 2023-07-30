@@ -1,7 +1,0 @@
----
-- name: Install and Start FTP server
-  hosts: test
-  become: yes
-
-  roles:
-    - vsftpd_role
