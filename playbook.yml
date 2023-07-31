@@ -1,8 +1,17 @@
-- name: Apply all roles
-  hosts: test
-  become: yes
-
+---
+- name: Setup users
+  hosts: test # all hosts
   roles:
-    - dnsmasq_role
-    - superusers_role
-    - nginx_php_fpm_role
+    - users
+
+- name: Setup http (nginx)
+  hosts: web_server # first hosts
+  become: yes
+  roles:
+    - http
+
+- name: Setup php-fpm
+  hosts: php_server # second hosts
+  become: yes
+  roles:
+    - php
