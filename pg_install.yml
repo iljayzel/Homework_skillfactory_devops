@@ -1,0 +1,22 @@
+---
+- name: Install and run PostgreSQL on database server
+  hosts: database
+  become: yes
+  vars:
+    postgres_version: "postgresql-server"
+    data_directory: "/var/lib/pgsql/14/data"
+  tasks:
+    - name: Install PostgreSQL
+      package:
+        name: "{{ postgres_version }}"
+        state: present
+
+    - name: Initialize PostgreSQL data directory
+      command: "{{ postgres_version }}-setup initdb"
+      when: not data_directory|d
+
+    - name: Start PostgreSQL service
+      service:
+        name: "{{ postgres_version }}"
+        state: started
+        enabled: yes
