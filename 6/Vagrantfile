@@ -1,0 +1,25 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "1024"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    # Обновляем пакеты
+    sudo apt-get update
+
+    # Устанавливаем python3 и pip3
+    sudo apt-get install -y python3 python3-pip
+
+    # Устанавливаем библиотеки
+    sudo apt-get install -y libpq-dev  # Зависимость для psycopg2
+    pip3 install psycopg2
+
+    # Устанавливаем Django
+    pip3 install django
+  SHELL
+
+  # Копирование пустого файла
+  config.vm.provision "file", source: "C:/Users/Iljay/Documents/skillfact/empty_file.txt", destination: "/vagrant/empty_file.txt"
+end
