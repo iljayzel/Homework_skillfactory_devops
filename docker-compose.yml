@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  php:
+    build: .
+    ports:
+      - "8080:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://nginx"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
